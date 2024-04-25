@@ -1,15 +1,13 @@
 @RestResource(urlMapping='/api/webhooks/createlead/*')
 global with sharing class googleLeadsWebhook {
     @HttpPost
-    global static void googleLeadsWebhook() {
-         String jsonString = RestContext.request.requestBody.toString();
-         Map<String, Object> leadData = (Map<String, Object>) JSON.deserializeUntyped(jsonString);
+    global static String createLead(String firstName, String lastName, String email, String phone) {
  
          // Extract lead data from the JSON payload
-         String firstName = (String) leadData.get('first_name');
-         String lastName = (String) leadData.get('last_name');
-         String email = (String) leadData.get('email');
-         String phone = (String) leadData.get('phone_number');
+        //  String firstName = (String) leadData.get('first_name');
+        //  String lastName = (String) leadData.get('last_name');
+        //  String email = (String) leadData.get('email');
+        //  String phone = (String) leadData.get('phone_number');
  
          // Create a new Lead record
          Lead newLead = new Lead();
@@ -24,12 +22,14 @@ global with sharing class googleLeadsWebhook {
  
              // Send email notification
              sendEmailNotification(newLead.Id, firstName, lastName, email, phone);
+             return 'Lead created successfully';
          } catch (Exception e) {
              // Handle any errors
+             return 'Error: ' + e.getMessage();
          }
     }
 
-    global static void sendEmailNotification(Id leadId, String firstName, String lastName, String email, String phone) {
+    public static void sendEmailNotification(Id leadId, String firstName, String lastName, String email, String phone) {
         // Construct email message
         Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
         emailMessage.setToAddresses(new List<String>{'johnpaul.john@aesconsulting.in'}); // Specify recipient email address

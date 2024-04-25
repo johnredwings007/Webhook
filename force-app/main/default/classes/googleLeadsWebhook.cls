@@ -1,6 +1,6 @@
 @RestResource(urlMapping='/api/webhooks/createlead/*')
 global with sharing class googleLeadsWebhook {
-    public googleLeadsWebhook() {
+    global googleLeadsWebhook() {
          String jsonString = RestContext.request.requestBody.toString();
          Map<String, Object> leadData = (Map<String, Object>) JSON.deserializeUntyped(jsonString);
  
@@ -28,7 +28,7 @@ global with sharing class googleLeadsWebhook {
          }
     }
 
-    private static void sendEmailNotification(Id leadId, String firstName, String lastName, String email, String phone) {
+    global static void sendEmailNotification(Id leadId, String firstName, String lastName, String email, String phone) {
         // Construct email message
         Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
         emailMessage.setToAddresses(new List<String>{'johnpaul.john@aesconsulting.in'}); // Specify recipient email address

@@ -1,6 +1,7 @@
 @RestResource(urlMapping='/api/webhooks/createlead/*')
 global with sharing class googleLeadsWebhook {
-    global googleLeadsWebhook() {
+    @HttpPost
+    global static void googleLeadsWebhook() {
          String jsonString = RestContext.request.requestBody.toString();
          Map<String, Object> leadData = (Map<String, Object>) JSON.deserializeUntyped(jsonString);
  
